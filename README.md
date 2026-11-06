@@ -2,7 +2,7 @@
 
 Site web de présentation du bot Discord **[Orbis](https://github.com/j-hyms/Orbis)**, un bot de gestion et de modération pour serveurs Discord.
 
-🔗 **Site en ligne :** `https://VOTRE_PSEUDO.github.io/orbis-site/` *(à adapter)*
+🔗 **Site en ligne :** `https://j-hyms.github.io/Orbis-site/` 
 
 ---
 
@@ -52,7 +52,7 @@ npx serve .
 2. Allez dans **Settings → Pages**.
 3. Dans **Build and deployment**, choisissez **Deploy from a branch**.
 4. Sélectionnez la branche `main` et le dossier `/ (root)`, puis **Save**.
-5. Après une à deux minutes, le site est accessible à l'adresse `https://VOTRE_PSEUDO.github.io/NOM_DU_DEPOT/`.
+5. Après une à deux minutes, le site est accessible à l'adresse `https://j-hyms.github.io/Orbis-site/`.
 
 Le site fonctionne aussi sur Netlify, Cloudflare Pages ou n'importe quel hébergeur de fichiers statiques.
 
@@ -84,10 +84,8 @@ Code source et documentation complète : **[github.com/j-hyms/Orbis](https://git
 ## 📬 Contact
 
 - Issues : [github.com/j-hyms/Orbis/issues](https://github.com/j-hyms/Orbis/issues)
-- Email : `votre.adresse@exemple.com` *(à adapter)*
+- Email : `jules.prod.dev@gmail.com` *(à adapter)*
 
 ---
 
 ## 📄 Licence
-
-À définir (par exemple [MIT](https://choosealicense.com/licenses/mit/)).
