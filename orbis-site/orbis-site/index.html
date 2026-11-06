@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Orbis – Le bot Discord de gestion et de modération moderne</title>
+<link rel="icon" type="image/png" href="C:\Users\Eleve\Desktop\orbis-site\favicon.png">
+<style>
+:root{--bg:#0b0d1a;--bg2:#12152a;--card:#171b35;--txt:#e9ebff;--mut:#9aa1cf;--acc:#7c5cff;--acc2:#22d3ee;--bd:#262b52;--hdr:rgba(11,13,26,.82);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f6f7ff;--bg2:#eceeff;--card:#fff;--txt:#171a38;--mut:#5b6190;--bd:#dcdff5;--hdr:rgba(246,247,255,.85)}}
+:root[data-theme="light"]{--bg:#f6f7ff;--bg2:#eceeff;--card:#fff;--txt:#171a38;--mut:#5b6190;--bd:#dcdff5;--hdr:rgba(246,247,255,.85)}
+:root[data-theme="dark"]{--bg:#0b0d1a;--bg2:#12152a;--card:#171b35;--txt:#e9ebff;--mut:#9aa1cf;--bd:#262b52;--hdr:rgba(11,13,26,.82)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--hdr);backdrop-filter:blur(12px);z-index:30}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--hdr);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd)}
+.bar{max-width:1080px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;gap:12px}
+.logo{font-weight:800;font-size:1.25rem;letter-spacing:.5px;color:var(--txt);text-decoration:none;display:flex;gap:8px;align-items:center}
+.logo i{width:26px;height:26px;border-radius:50%;background:conic-gradient(var(--acc),var(--acc2),var(--acc));display:inline-block;box-shadow:0 0 14px var(--acc)}
+nav{display:flex;gap:6px;align-items:center}
+nav a{color:var(--mut);text-decoration:none;padding:8px 14px;border-radius:999px;font-weight:600;font-size:.95rem;transition:.2s}
+nav a:hover{color:var(--txt)}
+nav a.on{color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc2))}
+#theme{background:none;border:1px solid var(--bd);color:var(--txt);border-radius:999px;width:36px;height:36px;cursor:pointer;font-size:1rem}
+main{max-width:1080px;margin:auto;padding:0 20px 60px}
+.page{display:none;animation:in .5s ease}
+.page.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hero{text-align:center;padding:80px 0 50px;position:relative}
+.hero::before{content:"";position:absolute;left:50%;top:20px;width:min(520px,90vw);height:320px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(124,92,255,.35),transparent);z-index:-1;filter:blur(20px)}
+.tag{display:inline-block;border:1px solid var(--bd);background:var(--card);padding:5px 14px;border-radius:999px;font-size:.85rem;color:var(--mut)}
+h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.1;margin:18px 0}
+.grad{background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{max-width:640px;margin:0 auto 28px;color:var(--mut);font-size:1.12rem}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;padding:12px 24px;border-radius:12px;font-weight:700;text-decoration:none;border:1px solid var(--bd);color:var(--txt);background:var(--card);cursor:pointer;font-size:1rem;transition:.2s;font-family:inherit}
+.btn:hover{transform:translateY(-2px)}
+.btn.p{border:0;color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 8px 24px rgba(124,92,255,.35)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin:30px 0}
+.stat{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:20px;text-align:center}
+.stat b{display:block;font-size:2rem}
+.stat span{color:var(--mut);font-size:.9rem}
+h2{font-size:1.8rem;margin:50px 0 8px}
+.sub{color:var(--mut);margin:0 0 24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:22px;transition:.25s}
+.card:hover{transform:translateY(-4px);border-color:var(--acc)}
+.card .ic{font-size:1.7rem}
+.card h3{margin:8px 0 6px}
+.card p{margin:0;color:var(--mut);font-size:.95rem}
+code{background:var(--bg2);border:1px solid var(--bd);padding:2px 7px;border-radius:6px;font-size:.88em;font-family:ui-monospace,Menlo,Consolas,monospace}
+pre{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:16px;overflow-x:auto;font-size:.88rem}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:560px;background:var(--card);border-radius:14px;overflow:hidden}
+th,td{padding:12px 14px;border-bottom:1px solid var(--bd);text-align:left;font-size:.93rem}
+th{background:var(--bg2)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tabs button{border:1px solid var(--bd);background:var(--card);color:var(--txt);padding:8px 16px;border-radius:999px;cursor:pointer;font-weight:600;font-family:inherit}
+.tabs button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.tp{display:none}.tp.on{display:block}
+.dl{display:flex;gap:18px;align-items:center;flex-wrap:wrap;background:linear-gradient(135deg,rgba(124,92,255,.18),rgba(34,211,238,.14));border:1px solid var(--bd);border-radius:20px;padding:24px;margin:30px 0}
+.dl div{flex:1;min-width:220px}.dl h3{margin:0 0 4px}.dl p{margin:0;color:var(--mut)}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps li{counter-increment:s;position:relative;padding:4px 0 14px 52px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;display:grid;place-items:center;font-weight:800}
+.two{display:grid;grid-template-columns:1.2fr 1fr;gap:24px}
+@media(max-width:760px){.two{grid-template-columns:1fr}nav a{padding:7px 10px;font-size:.85rem}.logo span{display:none}}
+form{display:grid;gap:14px}
+label{font-weight:600;font-size:.9rem}
+input,textarea,select{width:100%;margin-top:6px;padding:12px 14px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--txt);font:inherit}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--acc);border-color:transparent}
+.ok{display:none;padding:14px;border-radius:12px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.5)}
+.ok.show{display:block}
+.contacts a{color:var(--acc2);text-decoration:none;font-weight:600}
+footer{text-align:center;color:var(--mut);padding:30px 20px;border-top:1px solid var(--bd);font-size:.9rem}
+</style>
+</head>
+<body>
+<header><div class="bar">
+<a class="logo" href="#accueil"><i></i><span>Orbis</span></a>
+<nav>
+<a href="#accueil" data-p="accueil">Accueil</a>
+<a href="#bot" data-p="bot">Le bot</a>
+<a href="#contact" data-p="contact">Contact</a>
+<button id="theme" title="Changer de thème" aria-label="Changer de thème">◐</button>
+</nav>
+</div></header>
+
+<main>
+<!-- ACCUEIL -->
+<section class="page" id="p-accueil">
+<div class="hero">
+<span class="tag">Bot Discord · Node.js + discord.js v14</span>
+<h1>Gardez le contrôle de votre <span class="grad">communauté</span></h1>
+<p class="lead">Orbis simplifie la gestion et l’administration de vos serveurs Discord : modération, rôles, salons et membres, le tout depuis de simples commandes slash.</p>
+<div class="btns"><a class="btn p" href="#bot">Découvrir le bot</a><a class="btn" href="#contact">Me contacter</a></div>
+</div>
+<div class="stats">
+<div class="stat"><b data-n="6">0</b><span>commandes principales</span></div>
+<div class="stat"><b data-n="30">0</b><span>sous-commandes</span></div>
+<div class="stat"><b data-n="0">0</b><span>intents privilégiés requis</span></div>
+<div class="stat"><b>24/7</b><span>en ligne (Railway, VPS, Docker)</span></div>
+</div>
+<h2>Tout ce qu’il faut, dans un seul bot</h2>
+<p class="sub">Une expérience simple, efficace et complète.</p>
+<div class="grid">
+<div class="card"><div class="ic">🛡️</div><h3>Modération</h3><p>Ban, kick, timeout, avertissements sauvegardés et suppression de messages en masse.</p></div>
+<div class="card"><div class="ic">🎭</div><h3>Gestion des rôles</h3><p>Créez, modifiez, attribuez et retirez des rôles, avec couleurs et affichage séparé.</p></div>
+<div class="card"><div class="ic">💬</div><h3>Gestion des salons</h3><p>Création, renommage, verrouillage, mode lent et sujet de salon en une commande.</p></div>
+<div class="card"><div class="ic">👤</div><h3>Infos membres</h3><p>Informations, pseudo, avatar et statistiques du serveur à la demande.</p></div>
+<div class="card"><div class="ic">📜</div><h3>Journal de logs</h3><p>Chaque action est enregistrée dans un salon dédié, et le membre sanctionné est prévenu en MP.</p></div>
+<div class="card"><div class="ic">🔒</div><h3>Sécurités intégrées</h3><p>Hiérarchie des rôles respectée et permissions vérifiées avant chaque action.</p></div>
+</div>
+</section>
+
+<!-- BOT -->
+<section class="page" id="p-bot">
+<div class="hero" style="padding-bottom:20px">
+<span class="tag">Guide complet</span>
+<h1>Tout savoir sur <span class="grad">Orbis</span></h1>
+<p class="lead">Bot multifonction pour gérer la modération, les rôles, les salons et les membres d’un serveur Discord, entièrement via des commandes slash (<code>/</code>).</p>
+</div>
+
+<div class="dl">
+<div><h3>📄 README complet</h3><p>Le guide d’installation, d’utilisation et d’hébergement, au format Markdown.</p></div>
+<a class="btn p" href="https://raw.githubusercontent.com/j-hyms/Orbis/main/README.md" target="_blank" rel="noopener">Télécharger le README</a>
+<a class="btn" href="https://github.com/j-hyms/Orbis" target="_blank" rel="noopener">Voir sur GitHub</a>
+</div>
+
+<h2>Les commandes</h2>
+<p class="sub">Six commandes, des dizaines d’actions.</p>
+<div class="scroll"><table>
+<tr><th>Commande</th><th>Sous-commandes</th><th>Rôle</th></tr>
+<tr><td><code>/mod</code></td><td>ban, unban, kick, timeout, untimeout, warn, warnings, clearwarns, purge</td><td>Modération des membres</td></tr>
+<tr><td><code>/role</code></td><td>creer, supprimer, modifier, ajouter, retirer, info, liste</td><td>Création et gestion des rôles</td></tr>
+<tr><td><code>/salon</code></td><td>creer, supprimer, renommer, verrouiller, deverrouiller, lent, sujet</td><td>Gestion des salons</td></tr>
+<tr><td><code>/membre</code></td><td>info, pseudo, avatar, serveur</td><td>Infos et gestion des membres</td></tr>
+<tr><td><code>/config</code></td><td>logs, desactiver-logs, voir</td><td>Salon de logs de modération</td></tr>
+<tr><td><code>/aide</code></td><td>—</td><td>Liste des commandes</td></tr>
+</table></div>
+
+<h2>Exemples d’utilisation</h2>
+<div class="scroll"><table>
+<tr><th>Action</th><th>Commande</th></tr>
+<tr><td>Configurer les logs</td><td><code>/config logs salon:#logs-moderation</code></td></tr>
+<tr><td>Créer un rôle VIP rouge</td><td><code>/role creer nom:VIP couleur:#e74c3c separe:True</code></td></tr>
+<tr><td>Donner un rôle</td><td><code>/role ajouter membre:@Jean role:@VIP</code></td></tr>
+<tr><td>Mode lent de 10 s</td><td><code>/salon lent secondes:10</code></td></tr>
+<tr><td>Rendre muet 1 h 30</td><td><code>/mod timeout membre:@Jean duree:1h30m raison:Spam</code></td></tr>
+<tr><td>Supprimer 50 messages</td><td><code>/mod purge nombre:50</code></td></tr>
+<tr><td>Bannir et effacer 1 jour</td><td><code>/mod ban membre:@Jean supprimer_messages:1 raison:Raid</code></td></tr>
+</table></div>
+<p class="sub" style="margin-top:10px">Durées acceptées : <code>30s</code> <code>10m</code> <code>2h</code> <code>1h30m</code> <code>3j</code> <code>1w</code> (maximum 28 jours).</p>
+
+<h2>Sécurités intégrées</h2>
+<div class="grid">
+<div class="card"><h3>Permissions</h3><p>Les commandes ne sont visibles que par les membres ayant la permission adéquate.</p></div>
+<div class="card"><h3>Hiérarchie</h3><p>Impossible de sanctionner un membre plus haut placé, le propriétaire ou le bot.</p></div>
+<div class="card"><h3>Vérifications</h3><p>Permissions du bot contrôlées avant chaque action, avec un message clair.</p></div>
+</div>
+
+<h2>Installation</h2>
+<p class="sub">Prérequis : Node.js 18 ou plus récent.</p>
+<ol class="steps">
+<li><b>Créer le bot</b> sur le portail développeur Discord, copier l’Application ID (<code>CLIENT_ID</code>) et le token (<code>DISCORD_TOKEN</code>).</li>
+<li><b>Inviter le bot</b> avec les scopes <code>bot</code> et <code>applications.commands</code>, puis placer son rôle au-dessus de ceux qu’il gère.</li>
+<li><b>Installer et configurer</b> : <code>npm install</code>, puis remplir le fichier <code>.env</code>.</li>
+<li><b>Enregistrer les commandes</b> avec <code>npm run deploy</code>, puis lancer avec <code>npm start</code>.</li>
+</ol>
+<pre>cd discord-bot
+npm install
+cp .env.example .env
+npm run deploy
+npm start</pre>
+
+<h2>Hébergement 24h/24</h2>
+<p class="sub">Un bot a besoin d’un processus Node.js permanent (pas de service serverless).</p>
+<div class="tabs" id="tabs">
+<button class="on" data-t="t1">Railway</button><button data-t="t2">VPS + PM2</button><button data-t="t3">Docker</button><button data-t="t4">Bot hosting</button>
+</div>
+<div class="tp on" id="t1"><div class="card"><p>Le plus simple, sans ligne de commande. Poussez le projet sur GitHub, créez un projet Railway depuis votre dépôt, ajoutez les variables <code>DISCORD_TOKEN</code>, <code>CLIENT_ID</code> et <code>GUILD_ID</code>, puis utilisez <code>npm run deploy &amp;&amp; npm start</code>. Ajoutez un volume sur <code>/app/data</code> pour conserver les avertissements. Chaque <code>git push</code> redéploie le bot.</p></div></div>
+<div class="tp" id="t2"><pre>git clone https://github.com/VOTRE_PSEUDO/discord-bot.git
+cd discord-bot
+npm install --omit=dev
+npm run deploy
+sudo npm install -g pm2
+pm2 start ecosystem.config.js
+pm2 save &amp;&amp; pm2 startup</pre></div>
+<div class="tp" id="t3"><pre>docker build -t discord-bot .
+docker run -d --name discord-bot --restart unless-stopped \
+  --env-file .env -v discord-bot-data:/app/data discord-bot</pre></div>
+<div class="tp" id="t4"><div class="card"><p>Les panels de type Pterodactyl fonctionnent aussi : envoyez les fichiers sans <code>node_modules</code>, définissez les variables d’environnement et utilisez <code>npm run deploy &amp;&amp; npm start</code> comme commande de démarrage.</p></div></div>
+
+<h2>Dépannage</h2>
+<div class="scroll"><table>
+<tr><th>Problème</th><th>Solution</th></tr>
+<tr><td><code>TokenInvalid</code></td><td>Régénérez le token dans l’onglet Bot.</td></tr>
+<tr><td>Les commandes n’apparaissent pas</td><td>Lancez <code>npm run deploy</code>, renseignez <code>GUILD_ID</code> ou attendez jusqu’à 1 h, puis Ctrl+R dans Discord.</td></tr>
+<tr><td>Permissions insuffisantes</td><td>Remontez le rôle du bot au-dessus du rôle ciblé.</td></tr>
+<tr><td><code>/mod purge</code> supprime moins</td><td>Discord interdit la suppression en masse au-delà de 14 jours.</td></tr>
+<tr><td>Avertissements perdus</td><td>Montez un volume persistant sur <code>/app/data</code>.</td></tr>
+</table></div>
+</section>
+
+<!-- CONTACT -->
+<section class="page" id="p-contact">
+<div class="hero" style="padding-bottom:20px">
+<span class="tag">On reste en contact</span>
+<h1>Me <span class="grad">contacter</span></h1>
+<p class="lead">Une question, un bug, une idée de fonctionnalité ? Écrivez-moi.</p>
+</div>
+<div class="two">
+<div class="card">
+<form id="cf">
+<label>Nom<input id="n" required placeholder="Votre nom"></label>
+<label>Email<input id="e" type="email" required placeholder="vous@exemple.com"></label>
+<label>Sujet<select id="s"><option>Question</option><option>Signaler un bug</option><option>Suggestion</option><option>Autre</option></select></label>
+<label>Message<textarea id="m" rows="5" required placeholder="Votre message…"></textarea></label>
+<button class="btn p" type="submit">Envoyer le message</button>
+<div class="ok" id="ok">Votre application de messagerie va s’ouvrir avec le message prêt à envoyer.</div>
+</form>
+</div>
+<div class="card contacts">
+<h3>Autres moyens</h3>
+<p>💻 <a href="https://github.com/j-hyms/Orbis/issues" target="_blank" rel="noopener">Ouvrir une issue sur GitHub</a></p><br>
+<p>📦 <a href="https://github.com/j-hyms/Orbis" target="_blank" rel="noopener">Dépôt du projet</a></p><br>
+<p>✉️ <a id="mail" href="#contact">contact@exemple.com</a></p><br>
+<p style="margin-top:14px">Je réponds dès que possible.</p>
+</div>
+</div>
+</section>
+</main>
+<footer>© 2026 Orbis · Bot Discord de gestion et de modération</footer>
+
+<script>
+var EMAIL="jules.prod.dev@gmail.com"; // à remplacer par votre adresse
+var pages=["accueil","bot","contact"],counted=false;
+function route(){
+  var h=(location.hash||"#accueil").slice(1);
+  if(pages.indexOf(h)<0)h="accueil";
+  pages.forEach(function(p){
+    document.getElementById("p-"+p).classList.toggle("on",p===h);
+    document.querySelector('nav a[data-p="'+p+'"]').classList.toggle("on",p===h);
+  });
+  window.scrollTo(0,0);
+  if(h==="accueil")count();
+}
+function count(){
+  document.querySelectorAll("[data-n]").forEach(function(el){
+    var t=+el.dataset.n,i=0,st=Math.max(1,Math.ceil(t/30));
+    if(t===0){el.textContent="0";return}
+    var iv=setInterval(function(){i=Math.min(t,i+st);el.textContent=i+(t===30?"+":"");if(i>=t)clearInterval(iv)},30);
+  });
+}
+window.addEventListener("hashchange",route);route();
+document.getElementById("tabs").addEventListener("click",function(ev){
+  var t=ev.target.dataset.t;if(!t)return;
+  document.querySelectorAll("#tabs button").forEach(function(b){b.classList.toggle("on",b.dataset.t===t)});
+  document.querySelectorAll(".tp").forEach(function(p){p.classList.toggle("on",p.id===t)});
+});
+document.getElementById("theme").onclick=function(){
+  var r=document.documentElement,dark=getComputedStyle(r).getPropertyValue("--bg").trim()==="#0b0d1a";
+  r.setAttribute("data-theme",dark?"light":"dark");
+};
+document.getElementById("mail").href="mailto:"+EMAIL;
+document.getElementById("mail").textContent=EMAIL;
+document.getElementById("cf").addEventListener("submit",function(ev){
+  ev.preventDefault();
+  var body="Nom : "+n.value+"\nEmail : "+e.value+"\n\n"+m.value;
+  document.getElementById("ok").classList.add("show");
+  window.open("mailto:"+EMAIL+"?subject="+encodeURIComponent("[Orbis] "+s.value)+"&body="+encodeURIComponent(body),"_self");
+});
+</script>
+</body>
+</html>
