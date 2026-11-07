@@ -2,7 +2,7 @@
 
 Site web de présentation du bot Discord [**Orbis**](https://github.com/j-hyms/Orbis), un bot de gestion et de modération pour serveurs Discord.
 
-🔗 **Site en ligne :** `orbisbot.dev/`
+🔗 **Site en ligne :** `orbisbot.dev`
 
 \---
 
